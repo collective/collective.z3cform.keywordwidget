@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="collective.z3cform.datepicker">
+
+    <include package="plone.z3cform" />
+
+    <class class=".widget.KeywordWidget">
+        <require permission="zope.Public"
+                 interface=".interfaces.IKeywordWidget" />
+    </class>
+
+    <adapter factory=".widget.KeywordFieldWidget" />
+
+    <z3c:widgetTemplate
+        mode="input"
+        widget=".interfaces.IKeywordWidget"        
+        layer="z3c.form.interfaces.IFormLayer"
+        template="keyword_input.pt" 
+        />
+
+</configure>
