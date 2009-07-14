@@ -5,7 +5,7 @@ version = '1.0'
 
 setup(name='collective.z3cform.keywordwidget',
       version=version,
-      description="Adds a keyword widget (similar to the one for archetypes) to z3cform.",
+      description="Adds a keyword widget (similar to to Archetypes.Widget:KeywordWidget) to z3cform.",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
@@ -25,8 +25,10 @@ setup(name='collective.z3cform.keywordwidget',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'plone.app.z3cform',
       ],
       entry_points="""
       # -*- Entry points: -*-
       """,
       )
+
