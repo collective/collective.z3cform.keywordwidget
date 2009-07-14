@@ -62,7 +62,6 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
         context = aq_inner(self.context)
         name = index = self.field.getName()
         values = list(context.collectKeywords(name, index, 'portal_catalog'))
-        values = ['good', 'bye', 'hello', 'daar']
         added_values = self.getValuesFromRequest()
         for v in added_values:
             if v not in values:
