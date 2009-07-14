@@ -1,23 +1,85 @@
-from zope.interface import implementsOnly
-from zope.component import adapter
-from zope.interface import implementer
+import zope.component
+import zope.interface
+import zope.schema
+from zope.schema import vocabulary
+import z3c.form
+from z3c.form.i18n import MessageFactory as _
+from Acquisition import aq_inner
+import interfaces
 
-from z3c.form.browser import widget
-from z3c.form.interfaces import IFormLayer
-from z3c.form.interfaces import IFieldWidget
-from z3c.form.widget import Widget
-from z3c.form.widget import FieldWidget
+class KeywordWidget(z3c.form.browser.widget.HTMLFormElement, 
+                    z3c.form.browser.select.SequenceWidget):
 
-from interfaces import IKeywordWidget
+    zope.interface.implementsOnly(interfaces.IKeywordWidget)
+    items = ()
+    klass = u'keyword-widget'
+    multiple = 'multiple'
+    size = 14
+    style = "width: 100%;"
+    noValueToken = u''
+    noValueMessage = _('no value')
+    promptMessage = _('select a value ...')
 
-class KeywordWidget(widget.HTMLTextInputWidget, Widget):
-    """ Keyword widget. """
-    implementsOnly(IKeywordWidget)
+    @property
+    def formatted_value(self):
+        if not self.value:
+            return ''
+        return '<br/>'.join(self.value)
+
+    def getValuesFromRequest(self, default=z3c.form.interfaces.NOVALUE):
+        """Get the values from the request and split the terms with newlines
+        """
+        new_val = []
+        for v in self.request.get(self.name, []):
+            l = [v.strip() for v in v.strip('\r').split('\r')]
+            if '' in l:
+                l.remove('')
+            new_val += l
+        return new_val
+
+    def extract(self, default=z3c.form.interfaces.NOVALUE):
+        """See z3c.form.interfaces.IWidget.
+        """
+        if (self.name not in self.request and
+            self.name+'-empty-marker' in self.request):
+            return default
+
+        value = self.getValuesFromRequest() or default
+        if value != default:
+            for token in value:
+                if token == self.noValueToken:
+                    continue
+
+                try:
+                    self.terms.getTermByToken(token)
+                except LookupError:
+                    return default
+        return value
+
+    def updateTerms(self):
+        if self.terms is None:
+            self.terms = z3c.form.term.Terms()
+
+        context = aq_inner(self.context)
+        name = index = self.field.getName()
+        values = list(context.collectKeywords(name, index, 'portal_catalog'))
+        # values = ['good', 'bye', 'hello', 'daar']
+        added_values = self.getValuesFromRequest()
+        for v in added_values:
+            if v not in values:
+                values.append(v)
+        items = []
+        for v in values:
+            items.append(vocabulary.SimpleTerm(v, v, v))
+
+        self.terms.terms = vocabulary.SimpleVocabulary(items)
+        return self.terms
 
 
-@adapter(IKeywordWidget, IFormLayer)
-@implementer(IFieldWidget)
+@zope.component.adapter(interfaces.IKeywordCollection, z3c.form.interfaces.IFormLayer)
+@zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
 def KeywordFieldWidget(field, request):
-   """ IFieldWidget factory for KeywordWidget 
-   """
-   return FieldWidget(field, KeywordWidget(request))
+    """ IFieldWidget factory for KeywordWidget 
+    """
+    return z3c.form.widget.FieldWidget(field, KeywordWidget(request))
+
