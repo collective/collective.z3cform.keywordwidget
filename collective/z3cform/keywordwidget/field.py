@@ -5,10 +5,10 @@ import z3c.form.converter
 
 import interfaces
 
-class Keywords(zope.schema.Set):
+class Keywords(zope.schema.List):
     """A field representing a set."""
-    unique = True
     zope.interface.implements(interfaces.IKeywordCollection)
+    unique = True
     value_type = zope.schema.TextLine()
 
 
