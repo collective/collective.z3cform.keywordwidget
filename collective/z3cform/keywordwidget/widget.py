@@ -7,8 +7,7 @@ from z3c.form.i18n import MessageFactory as _
 from Acquisition import aq_inner
 import interfaces
 
-class KeywordWidget(z3c.form.browser.widget.HTMLFormElement, 
-                    z3c.form.browser.select.SequenceWidget):
+class KeywordWidget(z3c.form.browser.select.SelectWidget):
 
     zope.interface.implementsOnly(interfaces.IKeywordWidget)
     items = ()
@@ -63,11 +62,12 @@ class KeywordWidget(z3c.form.browser.widget.HTMLFormElement,
         context = aq_inner(self.context)
         name = index = self.field.getName()
         values = list(context.collectKeywords(name, index, 'portal_catalog'))
-        # values = ['good', 'bye', 'hello', 'daar']
+        values = ['good', 'bye', 'hello', 'daar']
         added_values = self.getValuesFromRequest()
         for v in added_values:
             if v not in values:
                 values.append(v)
+
         items = []
         for v in values:
             items.append(vocabulary.SimpleTerm(v, v, v))

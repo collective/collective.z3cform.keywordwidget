@@ -18,13 +18,11 @@ class KeywordsDataConverter(z3c.form.converter.BaseDataConverter):
     zope.component.adapts(interfaces.IKeywordCollection, interfaces.IKeywordWidget)
 
     def toWidgetValue(self, value):
-        """Convert from Python bool to HTML representation."""
-        return value
+        collectionType = self.field._type
+        if isinstance(collectionType, tuple):
+            collectionType = collectionType[-1]
 
-        widget = self.widget
-        if widget.terms is None:
-            widget.updateTerms()
-        return [widget.terms.getTerm(entry).token for entry in value]
+        return collectionType(value)
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter
