@@ -20,4 +20,15 @@
         template="keyword_input.pt" 
         />
 
+    <z3c:widgetTemplate
+        mode="display"
+        widget=".interfaces.IKeywordWidget"        
+        layer="z3c.form.interfaces.IFormLayer"
+        template="keyword_display.pt" 
+        />
+
+  <adapter
+      factory=".field.KeywordsDataConverter"
+      />
+
 </configure>
