@@ -22,7 +22,10 @@ class KeywordsDataConverter(z3c.form.converter.BaseDataConverter):
         if isinstance(collectionType, tuple):
             collectionType = collectionType[-1]
 
-        return collectionType(value)
+        if value:
+            return collectionType(value)
+        else:
+            return collectionType()
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter
