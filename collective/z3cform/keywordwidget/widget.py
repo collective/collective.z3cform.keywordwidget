@@ -5,6 +5,7 @@ from zope.schema import vocabulary
 import z3c.form
 from z3c.form.i18n import MessageFactory as _
 from Acquisition import aq_inner
+from Products.CMFCore.utils import getToolByName
 import interfaces
 
 class KeywordWidget(z3c.form.browser.select.SelectWidget):
@@ -60,11 +61,15 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
             self.terms = z3c.form.term.Terms()
 
         context = aq_inner(self.context)
-        name = index = self.field.getName()
-        values = list(context.collectKeywords(name, index, 'portal_catalog'))
+        index = self.field.getName()
+        catalog = getToolByName(context, 'portal_catalog')
+        values = catalog.uniqueValuesFor(index)
+        if None in values or '' in values:
+            values = [v for v in values if v]
+
         added_values = self.getValuesFromRequest()
         for v in added_values:
-            if v not in values:
+            if v and v not in values:
                 values.append(v)
 
         items = []
