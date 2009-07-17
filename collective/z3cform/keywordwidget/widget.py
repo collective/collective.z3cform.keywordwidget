@@ -63,7 +63,7 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
         context = aq_inner(self.context)
         index = self.field.getName()
         catalog = getToolByName(context, 'portal_catalog')
-        values = catalog.uniqueValuesFor(index)
+        values = list(catalog.uniqueValuesFor(index))
         if None in values or '' in values:
             values = [v for v in values if v]
 
