@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0Beta1'
+version = '1.0'
 
 setup(name='collective.z3cform.keywordwidget',
       version=version,
