@@ -6,8 +6,6 @@ from zope.app.testing import setup
 
 from Testing import ZopeTestCase as ztc
 
-from Products.Five import zcml
-from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import PloneSite
 ptc.setupPloneSite(
