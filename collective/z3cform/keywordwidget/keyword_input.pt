@@ -1,3 +1,4 @@
+<tal:block define="items view/items">
 <div style="width: 45%; float: left">
 <span i18n:translate="label_existing_categories"> Existing categories </span>
 <br />
@@ -26,7 +27,7 @@
                         multiple view/multiple;
                         size view/size">
 
-    <tal:block repeat="item view/items">
+    <tal:block repeat="item items">
         <option id="" value="" selected="selected"
             tal:condition="item/selected"
             tal:attributes="id item/id;
@@ -50,11 +51,12 @@
           rows="13"
           wrap="off"
           tal:attributes="id string:${view/id};
-                          name string:${view/name}:list;">
-</textarea>
+                          name string:${view/name}_additional"
+          tal:content="python:request.get('%s_additional' % view.name, '')"></textarea>
 </div>
 
 <input name="field-empty-marker" type="hidden" value="1"
        tal:attributes="name string:${view/name}-empty-marker" />
 
 <div class="visualClear"><!-- --></div>
+</tal:block>

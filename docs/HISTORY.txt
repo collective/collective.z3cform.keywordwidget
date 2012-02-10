@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.1 (2012-02-10)
+----------------
+
+- fixed unicode errors for non ascii keyword value support [petschki]
+- ui improved to keep new categories on form errors [petschki]
+
 1.0.1 (2009-09-29)
 ------------------
 
