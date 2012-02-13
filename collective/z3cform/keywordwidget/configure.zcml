@@ -5,6 +5,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="collective.z3cform.datepicker">
 
+    <include package="plone.z3cform" />
+
     <genericsetup:registerProfile
         name="testing"
         title="collective.z3cform.keywordwidget testing profile"
@@ -12,8 +14,6 @@
         for="Products.CMFPlone.interfaces.ITestCasePloneSiteRoot"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
-
-    <include package="plone.z3cform" />
 
     <class class=".widget.KeywordWidget">
         <require permission="zope.Public"
@@ -24,16 +24,16 @@
 
     <z3c:widgetTemplate
         mode="input"
-        widget=".interfaces.IKeywordWidget"        
+        widget=".interfaces.IKeywordWidget"
         layer="z3c.form.interfaces.IFormLayer"
-        template="keyword_input.pt" 
+        template="keyword_input.pt"
         />
 
     <z3c:widgetTemplate
         mode="display"
-        widget=".interfaces.IKeywordWidget"        
+        widget=".interfaces.IKeywordWidget"
         layer="z3c.form.interfaces.IFormLayer"
-        template="keyword_display.pt" 
+        template="keyword_display.pt"
         />
 
   <adapter

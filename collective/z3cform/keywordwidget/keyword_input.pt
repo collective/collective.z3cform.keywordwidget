@@ -1,5 +1,5 @@
-<tal:block define="items view/items">
-<div style="width: 45%; float: left">
+<tal:block define="items view/items"
+><div style="width: 45%; float: left">
 <span i18n:translate="label_existing_categories"> Existing categories </span>
 <br />
 <select id="" name="" class="" tabindex="" disabled="" multiple="" size=""
@@ -58,5 +58,5 @@
 <input name="field-empty-marker" type="hidden" value="1"
        tal:attributes="name string:${view/name}-empty-marker" />
 
-<div class="visualClear"><!-- --></div>
-</tal:block>
+<div class="visualClear"><!-- --></div
+></tal:block>

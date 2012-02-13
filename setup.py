@@ -27,6 +27,12 @@ setup(name='collective.z3cform.keywordwidget',
           # -*- Extra requirements: -*-
           'plone.app.z3cform',
       ],
+      extras_require={
+        'tests': [
+            'z3c.form [test]',
+            ],
+      },
+      test_suite='collective.z3cform.keywordwidget.tests.test_suite',
       entry_points="""
       # -*- Entry points: -*-
       """,

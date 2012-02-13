@@ -10,6 +10,7 @@ import z3c.form
 import zope.component
 import zope.interface
 import zope.schema
+from ts.content import logger
 
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
@@ -47,7 +48,7 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
         """
         new_val = []
         old_val = self.request.get(self.name, [])
-        for v in self.request.get('%s_additional' % self.name, "").split('\n'):
+        for v in self.request.get('%s_additional' % self.name, "").split("\n"):
             clean = v.strip().strip("\r").strip("\n")
             if clean and clean not in old_val:
                 new_val.append(clean)
@@ -60,6 +61,7 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
         """See z3c.form.interfaces.IWidget.
         """
         if (self.name not in self.request and
+            self.name + '_additional' not in self.request and
             self.name + '-empty-marker' in self.request):
             return default
 
@@ -76,7 +78,8 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
                     term = self.terms.getTermByToken(token)
                     titles.append(term.title)
                 except LookupError:
-                    return default
+                    # a new value is entered which is not available in vocab
+                    continue
 
         return len(titles) > 0 and titles or default
 

@@ -1,40 +1,33 @@
-import unittest
-
-import zope.testing
-import zope.component
-from zope.app.testing import setup
-
-from Testing import ZopeTestCase as ztc
-
+from Products.Five import zcml
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import PloneSite
-ptc.setupPloneSite(
-                   extension_profiles=['collective.z3cform.keywordwidget:testing'],
-                   )
-
+from Testing import ZopeTestCase as ztc
+from zope.app.testing import setup
+import Products.CMFPlone
 import collective.z3cform.keywordwidget
+import doctest
+import unittest
+import zope.component
+import zope.testing
+# For loading zcml
 
-class TestCase(ptc.PloneTestCase):
-    class layer(PloneSite):
-        @classmethod
-        def setUp(test):
-            pass
 
-        @classmethod
-        def tearDown(test):
-            setup.placefulTearDown()
+ptc.setupPloneSite(
+    extension_profiles=['collective.z3cform.keywordwidget:testing'], )
 
-optionflags = (zope.testing.doctest.REPORT_ONLY_FIRST_FAILURE |
-               zope.testing.doctest.ELLIPSIS | 
-               zope.testing.doctest.NORMALIZE_WHITESPACE
-               )
+
+OPTIONFLAGS = (doctest.ELLIPSIS |
+               doctest.NORMALIZE_WHITESPACE |
+               doctest.REPORT_NDIFF |
+               doctest.REPORT_ONLY_FIRST_FAILURE)
+
 
 def test_suite():
     return unittest.TestSuite((
         ztc.FunctionalDocFileSuite(
-            'README.txt', 
+            'README.txt',
             package='collective.z3cform.keywordwidget',
-            test_class=TestCase, 
-            optionflags=optionflags),
+            test_class=ptc.PloneTestCase,
+            optionflags=OPTIONFLAGS),
         ))
 
