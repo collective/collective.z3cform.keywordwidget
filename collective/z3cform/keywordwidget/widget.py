@@ -10,7 +10,6 @@ import z3c.form
 import zope.component
 import zope.interface
 import zope.schema
-from ts.content import logger
 
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')

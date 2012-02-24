@@ -1,8 +1,10 @@
 Changelog
 =========
 
-1.2 (unreleased)
+1.1.1 - 2012-02-24
 ----------------
+
+- fixed broken 1.1 release [petschki]
 
 1.1 (2012-02-13)
 ----------------
