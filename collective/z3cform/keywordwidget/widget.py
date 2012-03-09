@@ -18,7 +18,7 @@ _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
 def slugify(text, delim=u'-'):
     """ ASCII-only slug."""
     result = []
-    for word in _punct_re.split(text.lower()):
+    for word in _punct_re.split(safe_unicode(text.lower())):
         word = normalize('NFKD', word).encode('ascii', 'ignore')
         if word:
             result.append(word)
@@ -87,7 +87,7 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
             self.terms = z3c.form.term.Terms()
 
         context = aq_inner(self.context)
-        index = self.field.getName()
+        index = self.field.index_name or self.field.getName()
         catalog = getToolByName(context, 'portal_catalog')
         values = list(catalog.uniqueValuesFor(index))
 

@@ -5,11 +5,17 @@ import z3c.form.converter
 
 import interfaces
 
+
 class Keywords(zope.schema.List):
     """A field representing a set."""
     zope.interface.implements(interfaces.IKeywordCollection)
     unique = True
     value_type = zope.schema.TextLine()
+    index_name = None
+
+    def __init__(self, value_type=None, unique=False, index_name=None, **kw):
+        super(Keywords, self).__init__(value_type, unique, **kw)
+        self.index_name = index_name
 
 
 class KeywordsDataConverter(z3c.form.converter.BaseDataConverter):
