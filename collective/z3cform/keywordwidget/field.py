@@ -46,3 +46,7 @@ class KeywordsDataConverter(z3c.form.converter.BaseDataConverter):
         return collectionType(value)
 
 
+class InAndOutKeywordsDataConverter(KeywordsDataConverter):
+    """A special converter between collections and sequence widgets."""
+
+    zope.component.adapts(interfaces.IKeywordCollection, interfaces.IInAndOutKeywordWidget)

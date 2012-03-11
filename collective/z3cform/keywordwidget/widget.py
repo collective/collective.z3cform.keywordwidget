@@ -112,6 +112,34 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
         return self.terms
 
 
+class InAndOutKeywordWidget(KeywordWidget, z3c.form.browser.orderedselect.OrderedSelectWidget):
+
+    zope.interface.implementsOnly(interfaces.IInAndOutKeywordWidget)
+    klass = u'inandoutkeyword-widget'
+    multiple = 'multiple'
+    size = 14
+    style = "width: 100%;"
+    noValueToken = u''
+    noValueMessage = _('no value')
+    promptMessage = _('select a value ...')
+    items = []
+
+    def update(self):
+        # Do not call OrderedSelectWidget.update, because it would fail on different
+        # term policy. Rather call update of OrderedSelectWidget parents manually
+        # and copy updated version of OrderedSelectWidget.update here.
+        z3c.form.browser.widget.HTMLSelectWidget.update(self)
+        z3c.form.widget.SequenceWidget.update(self)
+        z3c.form.browser.widget.addFieldClass(self)
+        self.items = [
+            self.getItem(term, count)
+            for count, term in enumerate(self.terms)]
+        self.selectedItems = [
+            self.getItem(self.terms.getTermByToken(slugify(token)), count)
+            for count, token in enumerate(self.value)]
+        self.notselectedItems = self.deselect()
+
+
 @zope.component.adapter(interfaces.IKeywordCollection,
                         z3c.form.interfaces.IFormLayer)
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
@@ -119,3 +147,12 @@ def KeywordFieldWidget(field, request):
     """ IFieldWidget factory for KeywordWidget
     """
     return z3c.form.widget.FieldWidget(field, KeywordWidget(request))
+
+
+@zope.component.adapter(interfaces.IKeywordCollection,
+                        z3c.form.interfaces.IFormLayer)
+@zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
+def InAndOutKeywordFieldWidget(field, request):
+    """ IFieldWidget factory for InAndOutKeywordWidget
+    """
+    return z3c.form.widget.FieldWidget(field, InAndOutKeywordWidget(request))

@@ -36,8 +36,33 @@
         template="keyword_display.pt"
         />
 
+
+    <class class=".widget.InAndOutKeywordWidget">
+        <require permission="zope.Public"
+                 interface=".interfaces.IInAndOutKeywordWidget" />
+    </class>
+
+    <z3c:widgetTemplate
+        mode="input"
+        widget=".interfaces.IInAndOutKeywordWidget"
+        layer="z3c.form.interfaces.IFormLayer"
+        template="inoutkeyword_input.pt"
+        />
+
+    <z3c:widgetTemplate
+        mode="display"
+        widget=".interfaces.IInAndOutKeywordWidget"
+        layer="z3c.form.interfaces.IFormLayer"
+        template="inoutkeyword_display.pt"
+        />
+
+
   <adapter
       factory=".field.KeywordsDataConverter"
+      />
+
+  <adapter
+      factory=".field.InAndOutKeywordsDataConverter"
       />
 
 </configure>
