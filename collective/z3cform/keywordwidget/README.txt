@@ -78,8 +78,8 @@ Specify the KeywordWidget factory ('KeywordFieldWidget') as the field's widgetFa
     ...     def create(self, data):
     ...         return Foo(**data)
     ...
-    ...     def add(self, object):
-    ...         self.context[str(object.id)] = object
+    ...     def add(self, contentobj):
+    ...         self.context[str(contentobj.id)] = contentobj
     ...
     ...     def nextURL(self):
     ...         return 'index.html'
@@ -97,8 +97,28 @@ Check for the keyword widget and render it:
     >>> addForm.widgets.keys()
     ['id', 'keywords']
 
-    >>> addForm.widgets['keywords'].render()
-    u'<div style="width: 45%; float: left">\n<span> Existing categories </span>\n<br />\n<select id="form-widgets-keywords" name="form.widgets.keywords:list" class="keyword-widget required keywords-field" multiple="multiple" size="14" style="width: 100%;">\n\n</select>\n</div>\n\n<div style="width: 45%; float: right;">\n<span>New categories</span>\n<br />\n<textarea id="form-widgets-keywords" name="form.widgets.keywords_additional" cols="15" rows="13" wrap="off"></textarea>\n</div>\n\n<input name="form.widgets.keywords-empty-marker" type="hidden" value="1" />\n\n<div class="visualClear"><!-- --></div>\n'
+    >>> print addForm.widgets['keywords'].render()
+    <div style="width: 45%; float: left">
+    <span> Existing categories </span>
+    <br />
+    <select id="form-widgets-keywords" name="form.widgets.keywords:list" 
+    class="keyword-widget required keywords-field" multiple="multiple" size="14" 
+    style="width: 100%;">
+    <BLANKLINE>
+    </select>
+    </div>
+    <BLANKLINE>
+    <div style="width: 45%; float: right;">
+    <span>New categories</span>
+    <br />
+    <textarea id="form-widgets-keywords" name="form.widgets.keywords_additional" 
+    cols="15" rows="13" wrap="off"></textarea>
+    </div>
+    <BLANKLINE>
+    <input name="form.widgets.keywords-empty-marker" type="hidden" value="1" />
+    <BLANKLINE>
+    <div class="visualClear"><!-- --></div>
+    <BLANKLINE>
 
 Let's now submit the addform with data:
 
@@ -110,6 +130,11 @@ Let's now submit the addform with data:
 
     >>> addForm = FooAddForm(portal, request)
     >>> addForm.update()
+    >>> addForm.status
+    ''
+    
+    >> from interlude import interact
+    >> interact(locals())
 
 Check that the object has been created:
 

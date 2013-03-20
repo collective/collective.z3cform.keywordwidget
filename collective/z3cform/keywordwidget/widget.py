@@ -3,7 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from unicodedata import normalize
 from z3c.form.i18n import MessageFactory as _
-from zope.schema import vocabulary
+from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
 import interfaces
 import re
 from z3c.form import interfaces as z3cfinterfaces
@@ -100,19 +100,18 @@ class KeywordWidget(SelectWidget):
             values = [v for v in values if v]
 
         added_values = self.getValuesFromRequest()
-        for v in added_values:
-            if v and v not in values:
-                values.append(v)
+        for value in added_values:
+            if value and value not in values:
+                values.append(value)
 
         items = []
-        unique_values = []
-        for v in values:
-            normalized_value = slugify(v)
-            if not normalized_value in unique_values:
-                unique_values.append(normalized_value)
-                items.append(vocabulary.SimpleTerm(normalized_value,
-                    title=safe_unicode(v)))
-        self.terms.terms = vocabulary.SimpleVocabulary(items)
+        unique_values = set()
+        for value in values:
+            token = slugify(value)
+            if token not in unique_values:
+                unique_values.add(token)
+                term = SimpleTerm(value, token, safe_unicode(value))
+        self.terms.terms = SimpleVocabulary(items)
         return self.terms
 
 
