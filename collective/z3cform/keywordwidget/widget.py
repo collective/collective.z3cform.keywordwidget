@@ -6,7 +6,12 @@ from z3c.form.i18n import MessageFactory as _
 from zope.schema import vocabulary
 import interfaces
 import re
-import z3c.form
+from z3c.form import interfaces as z3cfinterfaces
+from z3c.form.widget import FieldWidget
+from z3c.form.browser.select import SelectWidget
+from z3c.form.browser.orderedselect import OrderedSelectWidget
+from z3c.form.term import Terms
+
 import zope.component
 import zope.interface
 import zope.schema
@@ -25,7 +30,7 @@ def slugify(text, delim=u'-'):
     return unicode(delim.join(result))
 
 
-class KeywordWidget(z3c.form.browser.select.SelectWidget):
+class KeywordWidget(SelectWidget):
 
     zope.interface.implementsOnly(interfaces.IKeywordWidget)
     klass = u'keyword-widget'
@@ -42,7 +47,7 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
             return ''
         return '<br/>'.join(self.value)
 
-    def getValuesFromRequest(self, default=z3c.form.interfaces.NOVALUE):
+    def getValuesFromRequest(self, default=z3cfinterfaces.NOVALUE):
         """Get the values from the request and split the terms with newlines
         """
         new_val = []
@@ -56,7 +61,7 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
     def isSelected(self, term):
         return term.title in self.value
 
-    def extract(self, default=z3c.form.interfaces.NOVALUE):
+    def extract(self, default=z3cfinterfaces.NOVALUE):
         """See z3c.form.interfaces.IWidget.
         """
         if (self.name not in self.request and
@@ -84,7 +89,7 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
 
     def updateTerms(self):
         if self.terms is None:
-            self.terms = z3c.form.term.Terms()
+            self.terms = Terms()
 
         context = aq_inner(self.context)
         index = self.field.index_name or self.field.getName()
@@ -112,7 +117,7 @@ class KeywordWidget(z3c.form.browser.select.SelectWidget):
         return self.terms
 
 
-class InAndOutKeywordWidget(KeywordWidget, z3c.form.browser.orderedselect.OrderedSelectWidget):
+class InAndOutKeywordWidget(KeywordWidget, OrderedSelectWidget):
 
     zope.interface.implementsOnly(interfaces.IInAndOutKeywordWidget)
     klass = u'inandoutkeyword-widget'
@@ -141,18 +146,18 @@ class InAndOutKeywordWidget(KeywordWidget, z3c.form.browser.orderedselect.Ordere
 
 
 @zope.component.adapter(interfaces.IKeywordCollection,
-                        z3c.form.interfaces.IFormLayer)
-@zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
+                       z3cfinterfaces.IFormLayer)
+@zope.interface.implementer(z3cfinterfaces.IFieldWidget)
 def KeywordFieldWidget(field, request):
     """ IFieldWidget factory for KeywordWidget
     """
-    return z3c.form.widget.FieldWidget(field, KeywordWidget(request))
+    return FieldWidget(field, KeywordWidget(request))
 
 
 @zope.component.adapter(interfaces.IKeywordCollection,
-                        z3c.form.interfaces.IFormLayer)
-@zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
+                        z3cfinterfaces.IFormLayer)
+@zope.interface.implementer(z3cfinterfaces.IFieldWidget)
 def InAndOutKeywordFieldWidget(field, request):
     """ IFieldWidget factory for InAndOutKeywordWidget
     """
-    return z3c.form.widget.FieldWidget(field, InAndOutKeywordWidget(request))
+    return FieldWidget(field, InAndOutKeywordWidget(request))

@@ -8,9 +8,6 @@ for plone.z3cform.
 How To Use (Doc Tests):
 =======================
 
-    >>> from z3c.form import testing
-    >>> testing.setupFormDefaults()
-
 In your interface schema, use the Keywords field as your field type:
 
     >>> import zope.interface
@@ -91,6 +88,7 @@ Specify the KeywordWidget factory ('KeywordFieldWidget') as the field's widgetFa
 Create an AddForm:
 
     >>> request = TestRequest()
+    >>> portal = layer['portal']
     >>> addForm = FooAddForm(portal, request)
     >>> addForm.update()
 
