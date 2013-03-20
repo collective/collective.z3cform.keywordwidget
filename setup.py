@@ -28,8 +28,9 @@ setup(name='collective.z3cform.keywordwidget',
           'plone.app.z3cform',
       ],
       extras_require={
-        'tests': [
-            'z3c.form [test]',
+        'test': [
+            'z3c.form[test]',
+            'plone.app.testing',
             ],
       },
       test_suite='collective.z3cform.keywordwidget.tests.test_suite',
