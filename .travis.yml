@@ -1,0 +1,6 @@
+language: python
+python: "2.7"
+install:
+  - python2.7 bootstrap.py 
+  - ./bin/buildout -qc test-4.3.x.cfg
+script: ./bin/test
