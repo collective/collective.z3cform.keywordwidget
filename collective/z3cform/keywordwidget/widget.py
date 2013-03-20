@@ -112,7 +112,6 @@ class KeywordWidget(SelectWidget):
                 unique_values.append(normalized_value)
                 items.append(vocabulary.SimpleTerm(normalized_value,
                     title=safe_unicode(v)))
-
         self.terms.terms = vocabulary.SimpleVocabulary(items)
         return self.terms
 
