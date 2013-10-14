@@ -11,6 +11,7 @@ from z3c.form.widget import FieldWidget
 from z3c.form.browser.select import SelectWidget
 from z3c.form.browser.orderedselect import OrderedSelectWidget
 from z3c.form.term import Terms
+import z3c.form
 
 import zope.component
 import zope.interface
