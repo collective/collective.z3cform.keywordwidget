@@ -10,11 +10,13 @@ class Keywords(zope.schema.List):
     """A field representing a set."""
     zope.interface.implements(interfaces.IKeywordCollection)
     unique = True
-    value_type = zope.schema.TextLine()
     index_name = None
 
     def __init__(self, value_type=None, unique=False, index_name=None, **kw):
-        super(Keywords, self).__init__(value_type, unique, **kw)
+        super(Keywords, self).__init__(value_type=value_type, unique=unique, **kw)
+        if not value_type:
+            self.value_type = zope.schema.TextLine()
+
         self.index_name = index_name
 
 
