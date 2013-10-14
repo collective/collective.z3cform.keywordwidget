@@ -4,6 +4,9 @@ Changelog
 1.3 - unreleased
 ----------------
 
+- Fixed terms list setup.
+  [thomasdesvenain]
+
 - Added a handler so that it can be used in supermodels.
   [thomasdesvenain]
 
