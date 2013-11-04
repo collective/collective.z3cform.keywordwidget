@@ -56,6 +56,10 @@
         template="inoutkeyword_display.pt"
         />
 
+  <utility
+      component=".handler.KeywordsHandler"
+      name="collective.z3cform.keywordwidget.field.Keywords"
+      />
 
   <adapter
       factory=".field.KeywordsDataConverter"

@@ -11,10 +11,10 @@ from z3c.form.widget import FieldWidget
 from z3c.form.browser.select import SelectWidget
 from z3c.form.browser.orderedselect import OrderedSelectWidget
 from z3c.form.term import Terms
+import z3c.form
 
 import zope.component
 import zope.interface
-import zope.schema
 
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
@@ -71,7 +71,6 @@ class KeywordWidget(SelectWidget):
 
         value = self.getValuesFromRequest() or default
         titles = []
-
         if value != default:
             for val in value:
                 token = slugify(val)
@@ -110,7 +109,8 @@ class KeywordWidget(SelectWidget):
             token = slugify(value)
             if token not in unique_values:
                 unique_values.add(token)
-                term = SimpleTerm(value, token, safe_unicode(value))
+                items.append(SimpleTerm(value, token, safe_unicode(value)))
+
         self.terms.terms = SimpleVocabulary(items)
         return self.terms
 
