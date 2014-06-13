@@ -36,6 +36,8 @@ setup(name='collective.z3cform.keywordwidget',
       test_suite='collective.z3cform.keywordwidget.tests.test_suite',
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
 
