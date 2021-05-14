@@ -3,12 +3,12 @@ import zope.schema
 import zope.interface
 import z3c.form.converter
 
-import interfaces
+from collective.z3cform.keywordwidget import interfaces
 
 
+@zope.interface.implementer(interfaces.IKeywordCollection)
 class Keywords(zope.schema.List):
     """A field representing a set."""
-    zope.interface.implements(interfaces.IKeywordCollection)
     unique = True
     index_name = None
 
@@ -20,10 +20,10 @@ class Keywords(zope.schema.List):
         self.index_name = index_name
 
 
+@zope.component.adapter(interfaces.IKeywordCollection, interfaces.IKeywordWidget)
 class KeywordsDataConverter(z3c.form.converter.BaseDataConverter):
     """A special converter between collections and sequence widgets."""
 
-    zope.component.adapts(interfaces.IKeywordCollection, interfaces.IKeywordWidget)
 
     def toWidgetValue(self, value):
         collectionType = self.field._type

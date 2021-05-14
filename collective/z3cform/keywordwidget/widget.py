@@ -4,7 +4,7 @@ from Products.CMFPlone.utils import safe_unicode
 from unicodedata import normalize
 from z3c.form.i18n import MessageFactory as _
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
-import interfaces
+from collective.z3cform.keywordwidget import interfaces
 import re
 from z3c.form import interfaces as z3cfinterfaces
 from z3c.form.widget import FieldWidget
@@ -30,9 +30,9 @@ def slugify(text, delim=u'-'):
     return unicode(delim.join(result))
 
 
+@zope.interface.implementer_only(interfaces.IKeywordWidget)
 class KeywordWidget(SelectWidget):
 
-    zope.interface.implementsOnly(interfaces.IKeywordWidget)
     klass = u'keyword-widget'
     multiple = 'multiple'
     size = 14
@@ -115,9 +115,9 @@ class KeywordWidget(SelectWidget):
         return self.terms
 
 
+@zope.interface.implementer_only(interfaces.IInAndOutKeywordWidget)
 class InAndOutKeywordWidget(KeywordWidget, OrderedSelectWidget):
 
-    zope.interface.implementsOnly(interfaces.IInAndOutKeywordWidget)
     klass = u'inandoutkeyword-widget'
     multiple = 'multiple'
     size = 14
