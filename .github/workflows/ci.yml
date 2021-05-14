@@ -1,0 +1,29 @@
+name: Run Buildout
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["2.7"]
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Run Install zc.buildout
+      run: pip install zc.buildout
+    - name: Cache eggs
+      uses: actions/cache@v2
+      with:
+        path: eggs
+        key: eggs-${{ matrix.python-version }}-${{ hashFiles('**/*.cfg') }}
+        restore-keys: eggs-${{ matrix.python-version }}
+    - name: Run buildout
+      run: buildout -c test-4.3.x.cfg
+    - name: Run tests
+      run: bin/test
