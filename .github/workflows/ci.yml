@@ -8,6 +8,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["2.7"]
+        plone-version: ["4.3", "5.2"]
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
@@ -24,6 +25,6 @@ jobs:
         key: eggs-${{ matrix.python-version }}-${{ hashFiles('**/*.cfg') }}
         restore-keys: eggs-${{ matrix.python-version }}
     - name: Run buildout
-      run: buildout -c test-4.3.x.cfg
+      run: buildout -c test-${{ matrix.plone-version }}.x.cfg
     - name: Run tests
       run: bin/test
