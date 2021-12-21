@@ -27,7 +27,7 @@ def slugify(text, delim=u'-'):
         word = normalize('NFKD', word).encode('ascii', 'ignore')
         if word:
             result.append(word)
-    return unicode(delim.join(result))
+    return safe_unicode(delim.join(result))
 
 
 @zope.interface.implementer_only(interfaces.IKeywordWidget)
